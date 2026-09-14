@@ -9,7 +9,7 @@ ENV PYTHONUNBUFFERED=1
 
 COPY pyproject.toml uv.lock ./
 
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
 
