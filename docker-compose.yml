@@ -1,0 +1,16 @@
+services:
+  lumen:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE:-django-insecure-change-me-in-prod}"
+      LUMEN_USERNAME: "${LUMEN_USERNAME:-lumen}"
+      LUMEN_PASSWORD: "${LUMEN_PASSWORD:-}"
+      LUMEN_AUTH_DISABLED: "${LUMEN_AUTH_DISABLED:-false}"
+    volumes:
+      - lumen_storage:/app/storage
+
+volumes:
+  lumen_storage:
