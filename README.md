@@ -2,11 +2,11 @@
 
 # ◉ Lumen Space
 
-> A local-first tool for deep research and structured thinking — Python 3.12+ & Django Edition.
+> A local-first tool for deep research and structured thinking — Python 3.14 & Django Edition.
 
 Lumen Space is a self-hosted research companion that helps you capture, connect, and make sense of information. It supports web pages, notes, quotes, markdown documents, highlights, tags, and a semantic relationship graph.
 
-This version is a full **Python 3.12+ & Django** port using **`django-cotton`** for UI component architecture, **`Alpine.js`** for reactive frontend interactions, **`uv`** for lightning-fast package management, and SQLite 3 for zero-config self-hosting.
+This version is a full **Python 3.14 & Django** port using **`django-cotton`** for UI component architecture, **`Alpine.js`** for reactive frontend interactions, **`uv`** for lightning-fast package management, and SQLite 3 for zero-config self-hosting.
 
 ---
 
@@ -28,7 +28,7 @@ This version is a full **Python 3.12+ & Django** port using **`django-cotton`** 
 
 | Layer | Technology |
 |---|---|
-| Language | Python ≥ 3.12 |
+| Language | Python ≥ 3.14 |
 | Framework | Django 6 |
 | Package Manager | `uv` |
 | UI Components | `django-cotton` |
@@ -45,7 +45,7 @@ This version is a full **Python 3.12+ & Django** port using **`django-cotton`** 
 
 ### Prerequisites
 
-- Python ≥ 3.12
+- Python ≥ 3.14
 - `uv` package manager (`curl -sSf https://astral.sh/uv/install.sh | sh` or `brew install uv`)
 
 ### Steps
