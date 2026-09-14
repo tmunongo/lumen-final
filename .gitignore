@@ -8,3 +8,14 @@ wheels/
 
 # Virtual environments
 .venv
+
+# SQLite databases
+*.sqlite3
+*.sqlite3-journal
+storage/
+db.sqlite3
+
+# Test & coverage outputs
+.coverage
+.pytest_cache/
+htmlcov/
