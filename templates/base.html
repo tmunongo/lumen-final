@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
   <title>{% block title %}Lumen Space{% endblock %}</title>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-  <link rel="stylesheet" href="/static/css/application.css">
+  <link rel="stylesheet" href="{% static 'css/application.css' %}">
   <style>
     [x-cloak] { display: none !important; }
   </style>

@@ -9,9 +9,8 @@ class LumenAuthMiddleware:
 
     def __call__(self, request):
         auth_disabled = getattr(settings, "LUMEN_AUTH_DISABLED", False)
-        expected_password = getattr(settings, "LUMEN_PASSWORD", "")
 
-        if auth_disabled or not expected_password:
+        if auth_disabled:
             return self.get_response(request)
 
         path = request.path_info

@@ -24,8 +24,8 @@ def login_view(request):
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "").strip()
 
-        expected_username = getattr(settings, "LUMEN_USERNAME", "lumen")
-        expected_password = getattr(settings, "LUMEN_PASSWORD", "")
+        expected_username = getattr(settings, "LUMEN_USERNAME", None) or "lumen"
+        expected_password = getattr(settings, "LUMEN_PASSWORD", None) or "lumen"
 
         user_ok = hmac.compare_digest(username.lower(), expected_username.lower())
         pass_ok = hmac.compare_digest(password, expected_password)
