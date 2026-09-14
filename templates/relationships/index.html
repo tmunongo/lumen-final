@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }} - Relationships Graph{% endblock %}
+
+{% block content %}
+<div class="relationships-page">
+  <div class="relationships-header">
+    <a href="{% url 'project_detail' pk=project.id %}" class="back-link">&larr; Back to Workspace</a>
+    <h1 class="page-title">Semantic Relationship Graph</h1>
+    <p class="page-subtitle">{{ project.name }} &bull; Tag Co-Occurrence Analysis</p>
+  </div>
+
+  <div class="relationships-grid">
+    <div class="relationships-sidebar">
+      <h3>Select Artifact</h3>
+      <div class="artifact-picker-list">
+        {% for art in artifacts %}
+          <a href="{% url 'relationships_index' project_id=project.id %}?artifact_id={{ art.id }}"
+             class="picker-item {% if selected_artifact and selected_artifact.id == art.id %}picker-item--active{% endif %}">
+            <span>{{ art.type_icon }}</span>
+            <span>{{ art.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="relationships-main">
+      {% if selected_artifact %}
+        <div class="rel-card">
+          <h2>Connected Artifacts for "{{ selected_artifact.title }}"</h2>
+          <div class="rel-list">
+            {% for r in related %}
+              <div class="rel-item">
+                <a href="{% url 'project_detail' pk=project.id %}?artifact_id={{ r.artifact.id }}" class="rel-item__title">
+                  {{ r.artifact.type_icon }} {{ r.artifact.title }}
+                </a>
+                <div class="rel-item__meta">
+                  Shared tags: <strong>{{ r.shared_tags|join:", " }}</strong> (strength: {{ r.strength|floatformat:2 }})
+                </div>
+              </div>
+            {% empty %}
+              <p class="text-muted">No related artifacts found via shared tags.</p>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if tag_suggestions %}
+          <div class="rel-card" style="margin-top: 1.5rem;">
+            <h3>Suggested Tags</h3>
+            <div class="tag-suggestions">
+              {% for tag in tag_suggestions %}
+                <span class="tag-pill tag-pill--suggested">+#{{ tag }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if bridges %}
+          <div class="rel-card" style="margin-top: 1.5rem;">
+            <h3>Bridge Artifacts in Project</h3>
+            <p class="text-muted" style="font-size: 0.85rem; margin-bottom: 0.75rem;">Artifacts connecting distinct tag clusters</p>
+            <div class="rel-list">
+              {% for b in bridges %}
+                <div class="rel-item">
+                  <a href="{% url 'project_detail' pk=project.id %}?artifact_id={{ b.id }}" class="rel-item__title">
+                    {{ b.type_icon }} {{ b.title }}
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      {% else %}
+        <div class="rel-placeholder">
+          <p class="text-muted">Select an artifact on the left to inspect network connections.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

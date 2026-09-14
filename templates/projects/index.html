@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - Lumen Space{% endblock %}
+
+{% block content %}
+<div class="projects-page">
+  <div class="projects-page__header">
+    <div>
+      <h1 class="page-title">Research Workspaces</h1>
+      <p class="page-subtitle">Organize and connect your deep research artifacts</p>
+    </div>
+
+    <div class="projects-page__controls" x-data="{ createModalOpen: false }">
+      <button class="btn-primary" @click="createModalOpen = true">+ New Project</button>
+
+      <div class="modal" x-show="createModalOpen" x-cloak>
+        <div class="modal__backdrop" @click="createModalOpen = false"></div>
+        <div class="modal__card">
+          <div class="modal__header">
+            <h3>Create New Project</h3>
+            <button type="button" class="btn-icon" @click="createModalOpen = false">&times;</button>
+          </div>
+          <form method="post" action="{% url 'project_create' %}" class="modal__form">
+            {% csrf_token %}
+            <div class="form-group">
+              <label>Project Name</label>
+              <input type="text" name="name" class="form-input" placeholder="e.g. AI & Consciousness Research" required autofocus>
+            </div>
+            <div class="modal__footer">
+              <button type="button" class="btn-secondary" @click="createModalOpen = false">Cancel</button>
+              <button type="submit" class="btn-primary">Create Project</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="projects-toolbar">
+    <form method="get" action="{% url 'projects_index' %}" class="projects-search">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search projects..." class="form-input">
+      {% if show_archived %}
+        <input type="hidden" name="show_archived" value="true">
+      {% endif %}
+    </form>
+
+    <div class="projects-toolbar__right">
+      <a href="{% url 'projects_index' %}?show_archived={% if show_archived %}false{% else %}true{% endif %}" class="btn-secondary">
+        {% if show_archived %}Hide Archived{% else %}Show Archived{% endif %}
+      </a>
+    </div>
+  </div>
+
+  <div class="projects-grid">
+    {% for project in projects %}
+      <c-project-item :project="project" />
+    {% empty %}
+      <div class="empty-state">
+        <p class="text-muted">No projects found. Create your first research workspace to get started.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

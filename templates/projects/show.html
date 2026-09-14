@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }} - Lumen Space{% endblock %}
+
+{% block content %}
+<div class="project-workspace">
+  <aside class="workspace-sidebar">
+    <div class="workspace-sidebar__header">
+      <a href="{% url 'projects_index' %}" class="back-link">&larr; Workspaces</a>
+      <h2 class="workspace-title">{{ project.name }}</h2>
+      <div class="workspace-actions">
+        <a href="{% url 'relationships_index' project_id=project.id %}" class="btn-secondary btn-sm">⬡ Graph</a>
+        <button type="button" class="btn-secondary btn-sm" @click="exportModalOpen = true">Export</button>
+        <button type="button" class="btn-primary btn-sm" @click="addModalOpen = true">+ Artifact</button>
+      </div>
+    </div>
+
+    <div class="artifact-list">
+      {% for artifact in artifacts %}
+        <c-artifact-item :artifact="artifact" :project="project" :selected="selected_artifact and selected_artifact.id == artifact.id" />
+      {% empty %}
+        <div class="empty-state" style="padding: 2rem 1rem;">
+          <p class="text-muted" style="font-size: 0.9rem;">No artifacts yet.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </aside>
+
+  <section class="workspace-reader">
+    <c-reader :artifact="selected_artifact" :project="project" />
+  </section>
+</div>
+
+<c-add-form :project="project" />
+<c-export-modal :project="project" />
+{% endblock %}

@@ -1,0 +1,31 @@
+<c-vars project="" />
+<div class="modal" x-show="exportModalOpen" x-cloak>
+  <div class="modal__backdrop" @click="exportModalOpen = false"></div>
+  <div class="modal__card">
+    <div class="modal__header">
+      <h3>Export Project Bibliography</h3>
+      <button type="button" class="btn-icon" @click="exportModalOpen = false">&times;</button>
+    </div>
+    <div class="export-options">
+      <a href="{% url 'project_export' pk=project.id %}?format=markdown" class="export-option-btn">
+        <span class="export-option__title">📄 Markdown (.md)</span>
+        <span class="export-option__desc">Human-readable summary with tags and contents</span>
+      </a>
+      <a href="{% url 'project_export' pk=project.id %}?format=bibtex" class="export-option-btn">
+        <span class="export-option__title">📚 BibTeX (.bib)</span>
+        <span class="export-option__desc">Standard reference format for academic writing</span>
+      </a>
+      <a href="{% url 'project_export' pk=project.id %}?format=csv" class="export-option-btn">
+        <span class="export-option__title">📊 CSV (.csv)</span>
+        <span class="export-option__desc">Spreadsheet table of titles, URLs and tags</span>
+      </a>
+      <a href="{% url 'project_export' pk=project.id %}?format=json" class="export-option-btn">
+        <span class="export-option__title">⚙️ JSON (.json)</span>
+        <span class="export-option__desc">Structured data format for custom tool integration</span>
+      </a>
+    </div>
+    <div class="modal__footer">
+      <button type="button" class="btn-secondary" @click="exportModalOpen = false">Close</button>
+    </div>
+  </div>
+</div>

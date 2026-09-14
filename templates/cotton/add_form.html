@@ -1,0 +1,49 @@
+<c-vars project="" />
+<div class="modal" x-show="addModalOpen" x-cloak>
+  <div class="modal__backdrop" @click="addModalOpen = false"></div>
+  <div class="modal__card" x-data="{ artifactType: 'note' }">
+    <div class="modal__header">
+      <h3>New Artifact</h3>
+      <button type="button" class="btn-icon" @click="addModalOpen = false">&times;</button>
+    </div>
+    <form method="post" action="{% url 'artifact_create' project_id=project.id %}" class="modal__form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Artifact Type</label>
+        <select name="artifact_type" x-model="artifactType" class="form-input">
+          <option value="note">📝 Note</option>
+          <option value="web_page">🌐 Web Page URL</option>
+          <option value="quote">💬 Quote</option>
+          <option value="markdown">📄 Markdown Document</option>
+          <option value="raw_link">🔗 Link</option>
+          <option value="pdf">📕 PDF URL</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" class="form-input" placeholder="Title" required>
+      </div>
+
+      <div class="form-group" x-show="['web_page', 'raw_link', 'pdf'].includes(artifactType)">
+        <label>Source URL</label>
+        <input type="url" name="source_url" class="form-input" placeholder="https://example.com">
+      </div>
+
+      <div class="form-group" x-show="artifactType === 'quote'">
+        <label>Attribution / Source</label>
+        <input type="text" name="attribution" class="form-input" placeholder="Author name or source">
+      </div>
+
+      <div class="form-group" x-show="['note', 'quote', 'markdown'].includes(artifactType)">
+        <label>Content</label>
+        <textarea name="content" class="form-textarea" rows="6" placeholder="Enter content or markdown..."></textarea>
+      </div>
+
+      <div class="modal__footer">
+        <button type="button" class="btn-secondary" @click="addModalOpen = false">Cancel</button>
+        <button type="submit" class="btn-primary">Save Artifact</button>
+      </div>
+    </form>
+  </div>
+</div>

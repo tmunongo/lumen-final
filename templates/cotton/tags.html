@@ -1,0 +1,22 @@
+<c-vars artifact="" project="" />
+<div class="tag-section">
+  <div class="tag-list">
+    {% for tag in artifact.tag_names %}
+      <span class="tag-pill">
+        #{{ tag }}
+        <form method="post" action="{% url 'artifact_remove_tag' project_id=project.id pk=artifact.id %}" style="display:inline;">
+          {% csrf_token %}
+          <input type="hidden" name="tag_name" value="{{ tag }}">
+          <button type="submit" class="tag-pill__remove">&times;</button>
+        </form>
+      </span>
+    {% empty %}
+      <span class="text-muted" style="font-size: 0.85rem;">No tags attached</span>
+    {% endfor %}
+  </div>
+
+  <form method="post" action="{% url 'artifact_add_tag' project_id=project.id pk=artifact.id %}" class="tag-add-form">
+    {% csrf_token %}
+    <input type="text" name="tag_name" placeholder="+ add tag" class="tag-input" required autocomplete="off">
+  </form>
+</div>

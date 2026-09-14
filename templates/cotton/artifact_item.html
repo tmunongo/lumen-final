@@ -1,0 +1,16 @@
+<c-vars artifact="" project="" selected="" />
+<a href="{% url 'project_detail' pk=project.id %}?artifact_id={{ artifact.id }}"
+   class="artifact-item {% if selected %}artifact-item--active{% endif %}">
+  <div class="artifact-item__icon">
+    {{ artifact.type_icon }}
+  </div>
+  <div class="artifact-item__details">
+    <div class="artifact-item__title">{{ artifact.title }}</div>
+    <div class="artifact-item__meta">
+      <span class="artifact-item__type">{{ artifact.type_label }}</span>
+      {% if artifact.tag_names %}
+        <span class="artifact-item__tags">&bull; {{ artifact.tag_names|join:", " }}</span>
+      {% endif %}
+    </div>
+  </div>
+</a>

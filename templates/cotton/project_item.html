@@ -1,0 +1,30 @@
+<c-vars project="" />
+<div class="project-card {% if project.is_archived %}project-card--archived{% endif %}">
+  <div class="project-card__header">
+    <a href="{% url 'project_detail' pk=project.id %}" class="project-card__title">
+      {{ project.name }}
+    </a>
+    <div class="project-card__badge">
+      {{ project.artifact_count }} artifact{{ project.artifact_count|pluralize }}
+    </div>
+  </div>
+
+  <div class="project-card__footer">
+    <span class="project-card__date">
+      Updated {{ project.updated_at|timesince }} ago
+    </span>
+    <div class="project-card__actions">
+      {% if project.is_archived %}
+      <form method="post" action="{% url 'project_unarchive' pk=project.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-text">Unarchive</button>
+      </form>
+      {% else %}
+      <form method="post" action="{% url 'project_archive' pk=project.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-text text-muted">Archive</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<c-vars artifact="" project="" />
+<div class="links-section">
+  <h4 class="links-section__title">Relationships</h4>
+  <ul class="link-list">
+    {% for link in artifact.outgoing_links.all %}
+      <li class="link-item">
+        <span class="link-badge">{{ link.type_label }}</span>
+        <a href="{% url 'project_detail' pk=project.id %}?artifact_id={{ link.target_artifact.id }}" class="link-target">
+          {{ link.target_artifact.title }}
+        </a>
+        <form method="post" action="{% url 'link_delete' pk=link.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn-text-danger">&times;</button>
+        </form>
+      </li>
+    {% empty %}
+      <li class="text-muted" style="font-size: 0.85rem;">No outgoing links</li>
+    {% endfor %}
+  </ul>
+
+  <form method="post" action="{% url 'link_create' %}" class="link-add-form" style="margin-top: 0.75rem;">
+    {% csrf_token %}
+    <input type="hidden" name="project_id" value="{{ project.id }}">
+    <input type="hidden" name="source_artifact_id" value="{{ artifact.id }}">
+    <select name="target_artifact_id" required class="form-input">
+      <option value="">-- Select Target Artifact --</option>
+      {% for target in project.artifacts.all %}
+        {% if target.id != artifact.id %}
+          <option value="{{ target.id }}">{{ target.title }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+    <select name="link_type" class="form-input" style="margin-top: 0.25rem;">
+      <option value="related">Related</option>
+      <option value="supports">Supports</option>
+      <option value="contradicts">Contradicts</option>
+      <option value="background">Background</option>
+      <option value="quotes">Quotes</option>
+      <option value="depends_on">Depends on</option>
+    </select>
+    <button type="submit" class="btn-secondary btn-sm" style="margin-top: 0.25rem;">+ Add Link</button>
+  </form>
+</div>

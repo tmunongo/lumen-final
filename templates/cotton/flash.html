@@ -1,0 +1,10 @@
+{% if messages %}
+<div class="flash-messages">
+  {% for message in messages %}
+  <div class="flash-message flash-message--{{ message.tags|default:'info' }}" x-data="{ show: true }" x-show="show">
+    <span class="flash-message__text">{{ message }}</span>
+    <button class="flash-message__close" @click="show = false">&times;</button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
